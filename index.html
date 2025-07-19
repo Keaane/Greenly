@@ -2,40 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Digital Balance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GreenTech Wellness</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>🌿 Digital Balance</h1>
-    <p>Pick your focus: Wellness or Sustainability</p>
-    <div class="focus-buttons">
-      <button id="wellnessBtn">Wellness</button>
-      <button id="sustainabilityBtn">Sustainability</button>
+  <div class="container">
+    <h1>GreenTech Wellness 🌿</h1>
+    <p class="subtitle">Digital wellness & sustainability made simple.</p>
+
+    <div class="quote-box" id="quoteBox">
+      <p id="quote">Loading quote...</p>
     </div>
-  </header>
 
-  <main>
-    <section id="contentArea">
-      <!-- Dynamic content loads here -->
-    </section>
+    <div class="toggle-buttons">
+      <button onclick="showTips('wellness')">🌼 Wellness Tips</button>
+      <button onclick="showTips('sustainability')">♻️ Sustainability Tips</button>
+    </div>
 
-    <!-- Habit Tracker Section -->
-    <section id="habitSection" style="margin-top: 30px;">
-      <h3>Track Your Habits</h3>
-      <input type="text" id="habitInput" placeholder="Enter a habit or action" />
-      <button id="addHabitBtn">Add Habit</button>
-      <ul id="habitList"></ul>
-      <p id="streakMsg"></p>
-    </section>
-  </main>
+    <ul id="tipsList" class="tips-list"></ul>
 
-  <footer>
-    <p>Made with 💚 by keane.</p>
-  </footer>
+    <h2>Find E-waste Recycling Centers</h2>
+    <div id="map"></div>
+    <p id="no-results" class="fallback-message"></p>
+  </div>
 
   <script src="script.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
-
