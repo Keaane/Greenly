@@ -1,150 +1,71 @@
-// script.js
-
-// Grab buttons and content container
-const wellnessBtn = document.getElementById('wellnessBtn');
-const sustainabilityBtn = document.getElementById('sustainabilityBtn');
-const contentArea = document.getElementById('contentArea');
-
-// Habit Tracking Elements
-const habitInput = document.getElementById('habitInput');
-const addHabitBtn = document.getElementById('addHabitBtn');
-const habitList = document.getElementById('habitList');
-const streakMsg = document.getElementById('streakMsg');
-
-// Sample content for each focus area
-const wellnessContent = `
-  <h2>Digital Wellness Tips</h2>
-  <ul>
-    <li>Take regular breaks from screens every hour.</li>
-    <li>Set a no-phone time before bed.</li>
-    <li>Use blue light filters in the evening.</li>
-    <li>Practice mindfulness apps or breathing exercises.</li>
-  </ul>
-  <p>Track your wellness habits and improve your balance!</p>
-`;
-
-const sustainabilityContent = `
-  <h2>E-Waste Recycling & Eco Tips</h2>
-  <p>Find local recycling centers to safely dispose of old devices.</p>
-  <input type="text" id="locationInput" placeholder="Enter your city or country" />
-  <button id="searchRecyclingBtn">Search</button>
-  <ul id="recyclingResults"></ul>
-  <ul>
-    <li>Recycle chargers, batteries, and phones.</li>
-    <li>Support eco-friendly tech companies.</li>
-    <li>Reduce digital clutter to lower energy usage.</li>
-  </ul>
-  <p>Track your sustainable actions and share progress.</p>
-`;
-
-// State for habits
-let habits = JSON.parse(localStorage.getItem('digitalBalanceHabits')) || [];
-
-// Function to save habits to localStorage
-function saveHabits() {
-  localStorage.setItem('digitalBalanceHabits', JSON.stringify(habits));
-}
-
-// Render habits list
-function renderHabits() {
-  habitList.innerHTML = '';
-  habits.forEach((habit, index) => {
-    const li = document.createElement('li');
-    li.textContent = habit;
-    // Remove button
-    const removeBtn = document.createElement('button');
-    removeBtn.textContent = '✖';
-    removeBtn.title = 'Remove habit';
-    removeBtn.onclick = () => {
-      habits.splice(index, 1);
-      saveHabits();
-      renderHabits();
-      updateStreak();
-    };
-    li.appendChild(removeBtn);
-    habitList.appendChild(li);
-  });
-  updateStreak();
-}
-
-// Simple streak based on count of habits
-function updateStreak() {
-  const streak = habits.length;
-  streakMsg.textContent = `You have tracked ${streak} habit${streak !== 1 ? 's' : ''}! Keep going!`;
-}
-
-// Add habit button listener
-addHabitBtn.addEventListener('click', () => {
-  const habit = habitInput.value.trim();
-  if (habit) {
-    habits.push(habit);
-    habitInput.value = '';
-    saveHabits();
-    renderHabits();
-  }
-});
-
-// Show content based on focus
-function showContent(type) {
-  if (type === 'wellness') {
-    contentArea.innerHTML = wellnessContent;
-    wellnessBtn.classList.add('active');
-    sustainabilityBtn.classList.remove('active');
-  } else if (type === 'sustainability') {
-    contentArea.innerHTML = sustainabilityContent;
-    sustainabilityBtn.classList.add('active');
-    wellnessBtn.classList.remove('active');
-    setupRecyclingSearch(); // setup event listener for recycling search
+// Inspirational Quote API
+async function fetchQuote() {
+  try {
+    const response = await fetch("https://zenquotes.io/api/today");
+    const data = await response.json();
+    const quote = `"${data[0].q}" — ${data[0].a}`;
+    document.getElementById("quote").textContent = quote;
+  } catch (error) {
+    document.getElementById("quote").textContent = "Stay inspired and grounded.";
   }
 }
+fetchQuote();
 
-// Setup Recycling Center Search for Sustainability content
-function setupRecyclingSearch() {
-  const locationInput = document.getElementById('locationInput');
-  const searchRecyclingBtn = document.getElementById('searchRecyclingBtn');
-  const recyclingResults = document.getElementById('recyclingResults');
-
-  searchRecyclingBtn.addEventListener('click', () => {
-    const location = locationInput.value.trim();
-    if (location) {
-      searchRecyclingCenters(location);
-    }
-  });
-
-  async function searchRecyclingCenters(location) {
-    recyclingResults.innerHTML = 'Searching...';
-
-    const query = encodeURIComponent('e-waste recycling ' + location);
-    const url = `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=5`;
-
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Network response was not ok');
-      const data = await response.json();
-
-      if (data.length === 0) {
-        recyclingResults.innerHTML = '<li>No results found.</li>';
-        return;
-      }
-
-      recyclingResults.innerHTML = '';
-      data.forEach(place => {
-        const li = document.createElement('li');
-        li.innerHTML = `<strong>${place.display_name}</strong><br/>Latitude: ${place.lat}, Longitude: ${place.lon}`;
-        recyclingResults.appendChild(li);
-      });
-    } catch (error) {
-      recyclingResults.innerHTML = `<li>Error fetching data: ${error.message}</li>`;
-    }
-  }
-}
-
-// Button event listeners
-wellnessBtn.addEventListener('click', () => showContent('wellness'));
-sustainabilityBtn.addEventListener('click', () => showContent('sustainability'));
-
-// On page load show wellness content & render habits
-window.onload = () => {
-  showContent('wellness');
-  renderHabits();
+// Wellness and Sustainability Tips
+const tips = {
+  wellness: [
+    "Take 5-minute screen breaks every hour.",
+    "Turn off notifications while focusing.",
+    "Unplug before bed to improve sleep.",
+    "Use blue light filters at night.",
+    "Practice mindfulness or meditation daily.",
+  ],
+  sustainability: [
+    "Reduce e-waste by repairing before replacing.",
+    "Unplug unused chargers to save energy.",
+    "Buy second-hand electronics when possible.",
+    "Recycle your devices responsibly.",
+    "Support eco-friendly tech brands.",
+  ],
 };
+
+function showTips(type) {
+  const list = document.getElementById("tipsList");
+  list.innerHTML = "";
+  tips[type].forEach(tip => {
+    const li = document.createElement("li");
+    li.textContent = tip;
+    list.appendChild(li);
+  });
+}
+
+// Google Maps + Places API: Recycling Centers
+function initMap() {
+  const rwanda = { lat: -1.9577, lng: 30.1127 };
+  const map = new google.maps.Map(document.getElementById("map"), {
+    center: rwanda,
+    zoom: 13,
+  });
+
+  const request = {
+    location: rwanda,
+    radius: 5000,
+    keyword: "electronics recycling",
+  };
+
+  const service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, (results, status) => {
+    if (status === google.maps.places.PlacesServiceStatus.OK && results.length) {
+      results.forEach(place => {
+        new google.maps.Marker({
+          map,
+          position: place.geometry.location,
+          title: place.name,
+        });
+      });
+    } else {
+      document.getElementById("no-results").textContent =
+        "😔 No recycling centers found near you. Try contacting EnviroServe Rwanda or ask your local authorities.";
+    }
+  });
+}
