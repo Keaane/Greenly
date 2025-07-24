@@ -1,31 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GreenTech Wellness</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Greenly</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="container">
-    <h1>GreenTech Wellness 🌿</h1>
-    <p class="subtitle">Digital wellness & sustainability made simple.</p>
+    <h1>Greenly 🌿</h1>
+    <p class="subtitle">Start small. Act smart. Make an impact.</p>
 
-    <div class="quote-box" id="quoteBox">
-      <p id="quote">Loading quote...</p>
+    <div id="quoteBox">
+      <p id="quote">Loading inspiration...</p>
     </div>
 
-    <div class="toggle-buttons">
-      <button onclick="showTips('wellness')">🌼 Wellness Tips</button>
-      <button onclick="showTips('sustainability')">♻️ Sustainability Tips</button>
+    <div class="interactive-section">
+      <h2>Estimate Your Digital Impact</h2>
+      <label for="activitySelect">Choose activity:</label>
+      <select id="activitySelect">
+        <option value="streaming">Streaming Video (1 hr)</option>
+        <option value="ai_query">AI Query (ChatGPT style)</option>
+        <option value="browsing">Web Browsing (1 hr)</option>
+      </select>
+      <button id="calcBtn">Calculate CO₂</button>
+      <p id="co2Result"></p>
     </div>
 
-    <ul id="tipsList" class="tips-list"></ul>
-
-    <h2>Find E-waste Recycling Centers</h2>
+    <h2>E‑Waste Recycling Locations</h2>
     <div id="map"></div>
-    <p id="no-results" class="fallback-message"></p>
+    <p id="no-results" class="fallback"></p>
   </div>
+
+  <script src="script.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap" async defer></script>
+</body>
+</html>
+
 
   <script src="script.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=places&callback=initMap" async defer></script>
