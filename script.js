@@ -1,71 +1,10 @@
-// Inspirational Quote API
-async function fetchQuote() {
-  try {
-    const response = await fetch("https://zenquotes.io/api/today");
-    const data = await response.json();
-    const quote = `"${data[0].q}" — ${data[0].a}`;
-    document.getElementById("quote").textContent = quote;
-  } catch (error) {
-    document.getElementById("quote").textContent = "Stay inspired and grounded.";
-  }
-}
-fetchQuote();
-
-// Wellness and Sustainability Tips
-const tips = {
-  wellness: [
-    "Take 5-minute screen breaks every hour.",
-    "Turn off notifications while focusing.",
-    "Unplug before bed to improve sleep.",
-    "Use blue light filters at night.",
-    "Practice mindfulness or meditation daily.",
-  ],
-  sustainability: [
-    "Reduce e-waste by repairing before replacing.",
-    "Unplug unused chargers to save energy.",
-    "Buy second-hand electronics when possible.",
-    "Recycle your devices responsibly.",
-    "Support eco-friendly tech brands.",
-  ],
-};
-
-function showTips(type) {
-  const list = document.getElementById("tipsList");
-  list.innerHTML = "";
-  tips[type].forEach(tip => {
-    const li = document.createElement("li");
-    li.textContent = tip;
-    list.appendChild(li);
-  });
-}
-
-// Google Maps + Places API: Recycling Centers
-function initMap() {
-  const rwanda = { lat: -1.9577, lng: 30.1127 };
-  const map = new google.maps.Map(document.getElementById("map"), {
-    center: rwanda,
-    zoom: 13,
-  });
-
-  const request = {
-    location: rwanda,
-    radius: 5000,
-    keyword: "electronics recycling",
-  };
-
-  const service = new google.maps.places.PlacesService(map);
-  service.nearbySearch(request, (results, status) => {
-    if (status === google.maps.places.PlacesServiceStatus.OK && results.length) {
-      results.forEach(place => {
-        new google.maps.Marker({
-          map,
-          position: place.geometry.location,
-          title: place.name,
-        });
-      });
-    } else {
-      document.getElementById("no-results").textContent =
-        "😔 No recycling centers found near you. Try contacting EnviroServe Rwanda or ask your local authorities.";
-    }
-  });
-}
+body { font-family: Arial, sans-serif; background:#f0f8f4; margin:0; }
+.container { max-width: 700px; margin:2rem auto; padding:1rem; background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+h1 { color:#2e7d32; }
+.subtitle { color:#555; margin-bottom:1.5rem; }
+#quoteBox { background:#e8f5e9; border-left:5px solid #66bb6a; padding:1rem; border-radius:6px; margin-bottom:1.5rem; font-style:italic;}
+.interactive-section label, .interactive-section select, .interactive-section button { margin:0.5rem 0; display:block; }
+.interactive-section button { background:#81c784; color:#fff; border:none; padding:0.6rem 1.2rem; border-radius:6px; cursor:pointer;}
+#co2Result { margin-top:0.8rem; font-weight:bold; }
+#map { height: 300px; width:100%; margin-top:1rem; border-radius:8px; }
+.fallback { color:#777; margin-top:0.6rem; text-align:center;}
