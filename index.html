@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Greenly - Eco Wellness Companion</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Auth Container -->
+  <div id="auth-container">
+    <div class="auth-card">
+      <div class="logo">
+        <i class="fas fa-leaf"></i>
+        <h1>Greenly</h1>
+      </div>
+      <p class="tagline">Your Eco Wellness Companion</p>
+      
+      <div class="input-group">
+        <div class="input-wrapper">
+          <i class="fas fa-envelope"></i>
+          <input type="email" id="email" placeholder="Enter your email" />
+        </div>
+        
+        <div class="input-wrapper">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="password" placeholder="Enter your password" />
+        </div>
+      </div>
+
+      <div class="button-group">
+        <button id="login-btn" class="btn-primary">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+        <button id="signup-btn" class="btn-secondary">
+          <i class="fas fa-user-plus"></i> Sign Up
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="hidden">
+    <header class="dashboard-header">
+      <div class="user-info">
+        <i class="fas fa-user-circle"></i>
+        <span id="user-email">user@example.com</span>
+      </div>
+      <button id="logout-btn" class="btn-outline">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </header>
+
+    <div class="dashboard-content">
+      <div class="welcome-section">
+        <h2>Hello, <span id="user-name">Greenly User</span>! 🌿</h2>
+        <p>Ready to make a positive impact today?</p>
+      </div>
+
+      <!-- Daily Quote Section -->
+      <div class="daily-quote-section">
+        <h3>🌿 Daily Inspiration</h3>
+        <div id="daily-quote">
+          Loading your daily inspiration...
+        </div>
+      </div>
+
+      <!-- Mode Toggle Section -->
+      <div class="mode-toggle-section">
+        <h3>Focus Mode</h3>
+        <div class="mode-toggle">
+          <button id="eco-mode" class="mode-btn active">
+            <i class="fas fa-recycle"></i> Eco Mode
+          </button>
+          <button id="wellness-mode" class="mode-btn">
+            <i class="fas fa-heart"></i> Wellness Mode
+          </button>
+        </div>
+        <p id="mode-title" class="mode-description">Eco Awareness</p>
+      </div>
+
+      <!-- Streak Tracker -->
+      <div class="card streak-card">
+        <div class="streak-icon">
+          <i class="fas fa-fire"></i>
+        </div>
+        <div class="streak-info">
+          <h3>Current Streak</h3>
+          <div class="streak-count">
+            <span id="streakCount">0</span> days
+          </div>
+          <p>Keep going! You're doing great!</p>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <div class="action-card">
+          <i class="fas fa-seedling"></i>
+          <h4>Wellness Mode</h4>
+          <p>Reduce screen time & digital stress</p>
+        </div>
+        <div class="action-card">
+          <i class="fas fa-recycle"></i>
+          <h4>Eco Mode</h4>
+          <p>Learn sustainable tech practices</p>
+        </div>
+      </div>
+
+      <!-- Content Sections -->
+      <div class="content-grid">
+        <div class="card">
+          <div class="section-header">
+            <i class="fas fa-video"></i>
+            <h3>Videos & Testimonials</h3>
+          </div>
+          <div id="video-section" class="content-section">
+            <p>Loading inspiring content...</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-header">
+            <i class="fas fa-newspaper"></i>
+            <h3>Latest Tips & News</h3>
+          </div>
+          <div id="news-section" class="content-section">
+            <p>Loading latest updates...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips Section -->
+      <div class="card">
+        <div class="section-header">
+          <i class="fas fa-lightbulb"></i>
+          <h3>Daily Tips</h3>
+        </div>
+        <div id="tips-section" class="content-section">
+          <p>Loading helpful tips...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
