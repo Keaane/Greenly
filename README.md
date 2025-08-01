@@ -1,7 +1,8 @@
 # Greenly - Eco Wellness Companion
 
-A web application to help users take mindful actions for personal well-being and environmental sustainability.
+A web application to help users take mindful actions for personal well-being and environmental sustainability. It's basically a one-stop centre for someone who wants a guide on how to take care of their wellbeing and the planet regarding electronics.
 
+**Live Demo (Vercel):** `https://vercel.com/keaanes-projects/greenly`
 **Docker Hub Repository:** `https://hub.docker.com/r/keaane/greenly-app`
 
 ## Description
@@ -34,7 +35,7 @@ Greenly guides users to live better — for themselves and the Earth. It combine
 
 ### Containerization
 
-I containerized the application using the provided `Dockerfile`.
+The application is containerized using the provided `Dockerfile`.
 
 **Dockerfile:**
 ```dockerfile
@@ -62,11 +63,8 @@ server { \
 
 ### Build & Test Locally
 
-I built and tested the Docker image locally to ensure it works correctly.
-
 ```bash
 # 1. Build the Docker image
-# Replace `keaane` with your actual Docker Hub username
 docker build -t keaane/greenly-app:v1 .
 
 # 2. Test the image locally
@@ -83,8 +81,6 @@ docker rm greenly-test
 
 ### Push to Docker Hub
 
-I pushed the built image to Docker Hub so it can be pulled on the lab machines.
-
 ```bash
 # 1. Log in to Docker Hub
 docker login
@@ -98,8 +94,6 @@ docker push keaane/greenly-app:latest
 ```
 
 ### Deploy on the Lab Machines (Web01 & Web02)
-
-I deployed the application on both Web01 and Web02 by SSH'ing into each machine, pulling the image from Docker Hub, and running the container.
 
 #### Deploy to Web-01
 
@@ -145,8 +139,6 @@ I deployed the application on both Web01 and Web02 by SSH'ing into each machine,
 
 ### Configure the Load Balancer (Lb-01)
 
-I configured the HAProxy load balancer on Lb-01 to distribute traffic between the two application instances.
-
 1.  **SSH into Lb-01:**
     ```bash
     ssh ubuntu@44.203.175.185
@@ -172,7 +164,7 @@ I configured the HAProxy load balancer on Lb-01 to distribute traffic between th
 
 ### Test End-to-End
 
-To verify the end-to-end deployment and load balancing, I would access the application via the load balancer from my local machine:
+From your local machine, access the application via the load balancer:
 
 ```bash
 # Access the application via the load balancer
@@ -181,6 +173,23 @@ curl http://44.203.175.185
 # Make multiple requests to observe round-robin load balancing
 for i in {1..6}; do curl -s -w "%{http_code} - %{url_effective}\n" -o /dev/null http://44.203.175.185; done
 ```
+
+## Alternative Deployment: Vercel
+
+Due to persistent technical issues preventing SSH access to the assigned lab servers (54.85.174.255, 44.201.232.242, 44.203.175.185), the application was successfully deployed using Vercel as an alternative hosting solution. The Docker image was still built and pushed to Docker Hub as required.
+
+1.  **Install Vercel CLI:**
+    ```bash
+    npm install -g vercel
+    ```
+2.  **Deploy to Vercel:**
+    ```bash
+    # Navigate to your project directory
+    vercel --prod
+    ```
+3.  **Follow the prompts** to link to your GitHub repository and configure the deployment.
+
+The Docker image containing the application is publicly available on Docker Hub at `https://hub.docker.com/r/keaane/greenly-app` with tags `v1` and `latest`. The deployment instructions for the lab environment using Docker containers are fully documented above and would be followed if SSH access to the lab servers becomes available.
 
 ## Hardening (API Keys)
 
@@ -196,8 +205,9 @@ A better approach would be:
 ## Challenges Faced
 
 *   Local Docker environment issues prevented running the `web_infra_lab` setup locally. Commands like `docker compose up` would hang or take excessively long.
-*   This led to focusing on preparing the code, `Dockerfile`, and comprehensive documentation for deployment in the expected lab environment, rather than demonstrating the full local workflow.
+*   Persistent issues with SSH access to assigned lab servers prevented deployment to the required Web01, Web02, and Lb01 machines.
 *   The NewsAPI integration uses sample data as a fallback due to CORS restrictions when calling it directly from the browser.
+*   Successfully built and pushed Docker image to Docker Hub, and deployed application via Vercel to ensure public accessibility.
 
 ## Future Improvements
 
@@ -218,3 +228,4 @@ A better approach would be:
     *   HAProxy
 *   **Libraries:**
     *   Font Awesome (for icons)
+    **Demo Video:** https://youtu.be/G_aioJmnZQE
